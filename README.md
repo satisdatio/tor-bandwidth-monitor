@@ -105,7 +105,7 @@ Tor Monitor Pro is a sophisticated monitoring solution designed specifically for
 
 ```bash
 # Clone the repository
-git clone https://github.com/rozhanisty/tor-bandwidth-monitor.git
+git clone https://github.com/satisdatio/tor-bandwidth-monitor.git
 cd tor-bandwidth-monitor
 
 # Install with pip
@@ -331,7 +331,8 @@ print('Audit log integrity:', 'VALID' if logger.verify_chain() else 'COMPROMISED
 For secure distribution, releases are signed with PGP:
 
 Maintainer PGP Key: 0xCF09157628A7E811
-Email: rozhan.isty@protonmail.com
+Email: satisdatio@proton.me
+
 
 ## Testing
 
@@ -359,7 +360,7 @@ python test_installation.py
 
 ```bash
 # Fork and clone
-git clone https://github.com/rozhanisty/tor-bandwidth-monitor.git
+git clone https://github.com/satisdatio/tor-bandwidth-monitor.git
 cd tor-bandwidth-monitor
 
 # Create virtual environment
@@ -421,7 +422,7 @@ copies or substantial portions of the Software.
 
 ## Support
 
-For issues or questions, visit the [GitHub repository](https://github.com/rozhanisty/tor-bandwidth-monitor).
+For issues or questions, visit the [GitHub repository](https://github.com/satisdatio/tor-bandwidth-monitor.git).
 
 ---
 
