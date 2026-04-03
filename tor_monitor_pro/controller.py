@@ -3,7 +3,7 @@
 import asyncio
 from typing import Dict, List, Optional, Any
 from dataclasses import dataclass
-from stem import Controller
+from stem.control import Controller
 from stem.connection import connect, connect_port
 from stem.response import events
 import logging

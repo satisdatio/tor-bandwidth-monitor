@@ -43,6 +43,9 @@ ldap = ["python-ldap>=3.4.0"]
 tor-monitor-pro = "tor_monitor_pro.cli:main"
 tor-monitor-pro-check = "tor_monitor_pro.cli:check_setup"
 
+[tool.hatch.build.targets.wheel]
+packages = ["tor_monitor_pro"]
+
 [build-system]
 requires = ["hatchling"]
 build-backend = "hatchling.build"

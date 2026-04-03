@@ -7,7 +7,7 @@ from typing import List, Tuple
 import logging
 
 try:
-    from stem import Controller
+    from stem.control import Controller
     from stem.connection import connect, AuthenticationFailure
     STEM_AVAILABLE = True
 except ImportError:
