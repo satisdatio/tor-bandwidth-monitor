@@ -1,0 +1,36 @@
+FROM python:3.11-slim
+
+LABEL maintainer="Tor Monitor Pro Team"
+LABEL description="Professional Tor monitoring solution"
+
+ENV PYTHONDONTWRITEBYTECODE=1
+ENV PYTHONUNBUFFERED=1
+
+WORKDIR /app
+
+# Install system dependencies
+RUN apt-get update && apt-get install -y --no-install-recommends \
+    gcc \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copy and install dependencies
+COPY pyproject.toml ./
+RUN pip install --no-cache-dir .
+
+# Copy application
+COPY tor_monitor_pro/ ./tor_monitor_pro/
+
+# Create non-root user
+RUN useradd -m -u 1000 toruser && \
+    chown -R toruser:toruser /app
+USER toruser
+
+# Expose ports
+EXPOSE 8080 9090
+
+# Health check
+HEALTHCHECK --interval=30s --timeout=10s --start-period=5s --retries=3 \
+    CMD python -c "import httpx; httpx.get('http://localhost:8080/health').raise_for_status()" || exit 1
+
+ENTRYPOINT ["python", "-m", "tor_monitor_pro.cli"]
+CMD ["--web"]

@@ -1,0 +1,45 @@
+# Tor Configuration for Tor Monitor Pro
+# This is a basic Tor relay configuration for monitoring purposes
+
+# Basic settings
+SocksPort 9050
+ControlPort 9051
+CookieAuthentication 1
+ExitPolicy reject *:*
+
+# Logging
+Log notice file /var/log/tor/notices.log
+Log info file /var/log/tor/info.log
+
+# Performance settings
+NumCPUs 2
+DisableDebuggerAttachment 0
+
+# Relay settings (optional - comment out if not running as relay)
+# ORPort 9001
+# Nickname TorMonitorRelay
+# ContactInfo tor-monitor@example.com
+
+# Bandwidth limits (adjust as needed)
+# RelayBandwidthRate 100 KBytes
+# RelayBandwidthBurst 200 KBytes
+
+# Data directory
+DataDirectory /var/lib/tor
+
+# Hidden service support (if needed)
+# HiddenServiceDir /var/lib/tor/hidden_service/
+# HiddenServicePort 80 127.0.0.1:8080
+
+# Metrics and monitoring
+MetricsPort 9035
+MetricsPortPolicy accept 127.0.0.1
+
+# Disable unused features for monitoring
+ClientOnly 1
+BridgeRelay 0
+
+# Security settings
+Sandbox 1
+NoExec 0
+KeepBindCapabilities 0
