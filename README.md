@@ -1,258 +1,386 @@
-# Tor Bandwidth Monitor
+# Tor Monitor Pro
 
-A lightweight, real-time CLI dashboard for monitoring Tor bandwidth and circuits,
-built with [`stem`](https://stem.torproject.org/) and [`Rich`](https://rich.readthedocs.io/).
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
+[![Python 3.9+](https://img.shields.io/badge/python-3.9+-blue.svg)](https://www.python.org/downloads/)
+[![Docker](https://img.shields.io/badge/docker-%230db7ed.svg?style=flat&logo=docker&logoColor=white)](https://docker.com)
+[![PostgreSQL](https://img.shields.io/badge/PostgreSQL-%23336791.svg?style=flat&logo=postgresql&logoColor=white)](https://postgresql.org)
+[![Tor](https://img.shields.io/badge/Tor-%237E4798.svg?style=flat&logo=tor&logoColor=white)](https://www.torproject.org/)
+[![FastAPI](https://img.shields.io/badge/FastAPI-%23009688.svg?style=flat&logo=fastapi&logoColor=white)](https://fastapi.tiangolo.com/)
+[![Prometheus](https://img.shields.io/badge/Prometheus-%23E6522C.svg?style=flat&logo=prometheus&logoColor=white)](https://prometheus.io/)
 
-```
-⬤  Tor Bandwidth Monitor  │  Tor 0.4.8.10  │  uptime 2h 34m 12s  │  mode: client  │  14:22:07
-━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━
-╭──── Metrics ──────────────╮  ╭──── Bandwidth History ──────────────────────────────────────────╮
-│  ↓ Download   12.34 KiB/s │  │  ↓ Download  peak: 48.2 KiB/s                                   │
-│  ↑ Upload      3.21 KiB/s │  │  ▁▂▃▄▅▆▇█▇▆▅▄▃▂▁▂▃▄▅▆▇█▇▆▅▄▃▂▁▂▃▄▅▆▇█▇▆▅▄▃▂▁                    │
-│                           │  │  ↑ Upload    peak: 12.1 KiB/s                                   │
-│  ↕ Total ↓   142.003 MiB  │  │  ▁▁▁▂▂▃▂▁▁▁▂▂▃▂▁▁▁▂▂▃▂▁▁▁▂▂▃▂▁▁▁▂▂▃▂▁▁▁▂▂▃▂▁                    │
-│  ↕ Total ↑    31.447 MiB  │  ├─────────────────────────────────────────────────────────────────┤
-│                           │  │  Last 12 samples                                                │
-│  ⧗ Latency      4.2 ms    │  │  ██▊▋▌▍▎▏ ▏▎▍  ↓                                                │
-│  ⊕ Circuits         3     │  │  ▍▎▏ ▏▎▍▌▋▊█▊  ↑                                                │
-╰───────────────────────────╯  ╰─────────────────────────────────────────────────────────────────╯
+Professional Tor relay monitoring with multi-relay support, enterprise-grade security, and comprehensive alerting.
 
-╭──── Active Circuits  (3 built) ─────────────────────────────────────────────────────────────╮
-│  ID   │ Hops │ Purpose        │ Status     │ Path (Guard → Middle → Exit)                   │
-│ ───── │ ──── │ ────────────── │ ────────── │ ─────────────────────────────────────────────  │
-│  42   │   3  │ GENERAL        │ BUILT      │ PrivacyGuard → SwissRelay → ExitNodeDE         │
-│  43   │   3  │ GENERAL        │ BUILT      │ FastRelay → MidEurope → USExitNode             │
-│  44   │   2  │ HS_CLIENT_REND │ BUILT      │ OnionGuard → RendPoint                         │
-╰─────────────────────────────────────────────────────────────────────────────────────────────╯
+Tor Monitor Pro is a sophisticated monitoring solution designed specifically for [Tor](https://www.torproject.org/) relay operators and network administrators. Built with enterprise-grade security and reliability, it provides real-time insights into Tor network performance, anomaly detection, and automated alerting.
 
-  Ctrl-C quit    Auto-refresh every 1 s    Colour: ● fast  ● medium  ● slow
-```
+## Key Features
 
----
+### Comprehensive Monitoring
+- Multi-Relay Support: Monitor entire Tor relay fleets from a single dashboard
+- Real-time Metrics: Bandwidth utilization, circuit counts, latency measurements, and performance KPIs
+- Historical Analysis: Time-series data with configurable retention policies
+- Statistical Insights: Trend analysis, peak detection, and percentile calculations
 
-## Features
+### Advanced Alerting
+- Multi-Channel Notifications: Email, Slack, and PagerDuty integration
+- Intelligent Thresholds: Configurable alert rules with cooldown periods
+- Severity Levels: INFO, WARNING, CRITICAL classification system
+- Alert Acknowledgment: Web interface for alert management and tracking
 
-| Feature | Details |
-|---|---|
-| **Live circuit table** | Circuit ID, hop count, purpose, status, colour-coded relay path |
-| **Bandwidth metrics** | Real-time download/upload KiB/s via cumulative counter diffing |
-| **Sparklines** | Unicode block-char history charts for the last N samples |
-| **Mini bar chart** | Last 12 samples rendered as vertical bar segments |
-| **Latency probe** | Control-port RTT as a lightweight responsiveness indicator |
-| **Auth detection** | Cookie → password → unauthenticated fallback chain |
-| **Pre-flight check** | `check_setup.py` validates everything before first run |
-| **Low CPU** | Single-threaded, no background polling threads |
+### Enterprise Security
+- Tamper-Evident Audit Logs: SHA256-chained audit trail for compliance
+- Role-Based Access Control: JWT-based authentication with configurable permissions
+- LDAP Integration: Enterprise directory authentication support
+- TLS/HTTPS: Secure web interface with certificate support
 
----
+### Observability & Integration
+- Prometheus Metrics: Native Prometheus exporter for Grafana dashboards
+- RESTful API: Complete API for integration with existing tools
+- Plugin Architecture: Extensible system for custom metrics and alerts
+- Database Flexibility: PostgreSQL for production, SQLite for development
 
-## Requirements
+### User Interfaces
+- Terminal UI: Rich, interactive terminal dashboard with real-time updates
+- Web Dashboard: Modern web interface with responsive design
+- API Documentation: Auto-generated OpenAPI/Swagger documentation
 
-- Python **3.8+**
-- **Tor** running with `ControlPort` enabled
-- `stem` ≥ 1.8.0
-- `rich` ≥ 13.0.0
+## Quick Start
 
----
+### Prerequisites
 
-## Installation
+- Python: 3.9 or higher
+- Tor: Running Tor instance with control port enabled
+- Database: PostgreSQL (recommended) or SQLite
 
-### 1. Configure Tor
-
-Add (or uncomment) these lines in your `torrc`:
-
-```
-ControlPort 9051
-CookieAuthentication 1
-```
-
-Then restart Tor:
-```bash
-# Linux / macOS (systemd)
-sudo systemctl restart tor
-
-# macOS (Homebrew)
-brew services restart tor
-
-# Direct
-tor -f /etc/tor/torrc
-```
-
-Find your `torrc`:
-| Platform | Typical path |
-|---|---|
-| Linux (apt/yum) | `/etc/tor/torrc` |
-| macOS (Homebrew) | `/usr/local/etc/tor/torrc` |
-| Windows (TBB) | `Browser/TorBrowser/Data/Tor/torrc` |
-
-### 2. Install Python dependencies
+### Installation
 
 ```bash
-cd tor_monitor
-pip install -r requirements.txt
-```
+# Clone the repository
+git clone https://github.com/rozhanisty/tor-bandwidth-monitor.git
+cd tor-bandwidth-monitor
 
-Or as a package (editable):
-```bash
+# Install with pip
 pip install -e .
+
+# Or with optional dependencies
+pip install -e ".[postgres,ldap]"
 ```
 
-### 3. Run the pre-flight checker
+### Basic Configuration
 
 ```bash
-python -m tor_monitor.check_setup
+# Copy example configuration
+cp .env.example .env
+
+# Edit configuration (required)
+nano .env
 ```
 
-Expected output:
-```
-─── Tor Monitor Pre-flight Checks ───────────────────────
+Minimal `.env` configuration:
+```bash
+# Required: Generate a secure secret key
+TOR_MONITOR_SECRET_KEY="$(openssl rand -hex 32)"
 
-Python & packages
-  [✓] Python 3.11
-  [✓] stem (1.8.2)
-  [✓] rich (13.7.0)
+# Tor connection
+TOR_CONTROL_HOST=127.0.0.1
+TOR_CONTROL_PORT=9051
+TOR_CONTROL_PASSWORD=your_tor_control_password
 
-Tor control port
-  [✓] Control port 127.0.0.1:9051 is reachable
-
-Authentication & data
-  [✓] Tor authentication succeeded
-  [✓] Traffic counters read OK  (↓ 14829312 B  ↑ 4194304 B cumulative)
-  [✓] 3 active circuit(s) found
-
-──────────────────────────────────────────────────────────
-  All checks passed – you're ready to run tor_monitor!
+# Database (SQLite for quick start)
+TOR_MONITOR_DB_URL=sqlite:///./tor_monitor.db
 ```
 
----
-
-## Usage
+### Run Pre-flight Checks
 
 ```bash
-python main.py
+# Validate installation and connectivity
+tor-monitor-pro-check
 ```
 
-### Options
-
-```
-usage: tor-monitor [-h] [--host HOST] [--port PORT] [--password PASSWORD]
-                   [--refresh SECONDS] [--history N]
-
-  --host HOST        Control-port host (default: 127.0.0.1)
-  --port PORT        Control-port number (default: 9051)
-  --password PASS    Control-port password (omit for cookie auth)
-  --refresh SECS     Seconds between refreshes (default: 1.0)
-  --history N        Sparkline sample count (default: 60)
-```
-
-### Common invocations
+### Start Monitoring
 
 ```bash
-# Default (cookie auth, 1 s refresh)
-python main.py
+# Terminal UI (default)
+tor-monitor-pro
 
-# Password auth
-python main.py --password "mySecret"
+# Web dashboard
+tor-monitor-pro --web
 
-# Non-standard port, faster refresh
-python main.py --port 9999 --refresh 0.5
-
-# Wider sparkline window
-python main.py --history 120
-
-# Remote Tor instance
-python main.py --host 192.168.1.50 --port 9051
+# Background mode
+tor-monitor-pro --background
 ```
 
----
+## Documentation
 
-## Project Structure
+### Tor Integration
+- [Tor Control Protocol](https://gitweb.torproject.org/torspec.git/tree/control-spec.txt)
+- [Relay Configuration](https://2019.www.torproject.org/docs/tor-manual.html.en)
+- [Network Status](https://gitweb.torproject.org/torspec.git/tree/dir-spec.txt)
 
-```
-tor_monitor/
-├── main.py                    # CLI entry-point & main render loop
-├── requirements.txt
-├── pyproject.toml
-├── README.md
-└── tor_monitor/
-    ├── __init__.py
-    ├── controller.py          # stem wrapper – connect, auth, GETINFO
-    ├── metrics.py             # bandwidth sampling, history, snapshots
-    ├── ui.py                  # Rich dashboard – all rendering logic
-    └── check_setup.py         # pre-flight environment validator
-```
+### Security
+- [Audit Logging Standards](https://csrc.nist.gov/publications/detail/sp/800-53/rev-5/final)
+- [JWT Best Practices](https://tools.ietf.org/html/rfc8725)
+- [TLS Configuration](https://ssl-config.mozilla.org/)
 
-### Module responsibilities
+## Docker Deployment
 
-```
-main.py
-  └─ parse CLI args
-  └─ connect TorController
-  └─ initialise MetricsCollector + DashboardUI
-  └─ drive Live() render loop
+### Production Setup
 
-controller.py         (stem boundary)
-  └─ TCP preflight check
-  └─ authenticate (cookie → password → none)
-  └─ get_circuits()           → raw stem Circuit objects
-  └─ get_bytes_transferred()  → (read_bytes, write_bytes) ints
-  └─ get_uptime() / get_version() / is_relay()
+```bash
+# Build and start services
+docker-compose up -d
 
-metrics.py            (data layer)
-  └─ sample()                 → Snapshot dataclass
-  └─ delta computation        (bytes / elapsed / 1024)
-  └─ deque history buffers    (maxlen = history_size)
-  └─ latency probe            (perf_counter around GETINFO)
+# View logs
+docker-compose logs -f tor-monitor
 
-ui.py                 (view layer)
-  └─ build()                  → Rich renderable (Group)
-  └─ _render_header()         → Panel
-  └─ _render_metrics_panel()  → Panel (Table.grid)
-  └─ _render_sparklines()     → Panel (unicode blocks)
-  └─ _render_mini_bars()      → Text (vertical bars)
-  └─ _render_circuit_table()  → Panel (Table)
-  └─ _render_footer()         → Panel
+# Scale monitoring instances
+docker-compose up -d --scale tor-monitor=3
 ```
 
----
+### Docker Services
 
-## Throughput formula
+| Service | Description | Port |
+|---------|-------------|------|
+| tor-monitor | Main application | 8080 (web), 9090 (metrics) |
+| tor | Tor relay | 9050 (socks), 9051 (control) |
+| postgres | Database | 5432 |
 
+## Configuration
+
+### Environment Variables
+
+| Variable | Description | Default | Required |
+|----------|-------------|---------|----------|
+| TOR_MONITOR_SECRET_KEY | JWT signing key | - | Yes |
+| TOR_CONTROL_HOST | Tor control host | 127.0.0.1 | Yes |
+| TOR_CONTROL_PORT | Tor control port | 9051 | Yes |
+| TOR_MONITOR_DB_URL | Database URL | sqlite:///./tor_monitor.db | Yes |
+| WEB_HOST | Web server host | 0.0.0.0 | No |
+| WEB_PORT | Web server port | 8080 | No |
+| PROMETHEUS_PORT | Metrics port | 9090 | No |
+
+### Advanced Configuration
+
+```bash
+# Security settings
+AUDIT_LOG_PATH=./audit.log
+ANOMALY_THRESHOLD=3.0
+TOKEN_EXPIRY_MINUTES=60
+
+# Alerting
+ALERT_EMAIL_FROM=alerts@yourdomain.com
+ALERT_SLACK_WEBHOOK=https://hooks.slack.com/...
+ALERT_PAGERDUTY_KEY=your-integration-key
+
+# Performance
+REFRESH_INTERVAL=1.0
+HISTORY_SIZE=3600
+DB_POOL_SIZE=10
 ```
-elapsed   = time_now − time_prev          (seconds, wall clock)
-read_Δ    = traffic/read_now − read_prev  (bytes, monotonic)
-read_kib  = read_Δ / elapsed / 1024       (KiB/s)
+
+## API Reference
+
+### Authentication
+
+```bash
+# Login
+curl -X POST "http://localhost:8080/api/auth/login" \
+  -H "Content-Type: application/json" \
+  -d '{"username": "admin", "password": "password"}'
+
+# Use token in subsequent requests
+curl -H "Authorization: Bearer YOUR_JWT_TOKEN" \
+  "http://localhost:8080/api/relays"
 ```
 
-Tor's `traffic/read` and `traffic/written` are cumulative byte
-counters maintained by the Tor process.  We diff successive readings
-divided by elapsed time.  The counter resets when Tor restarts.
+### Key Endpoints
 
----
+| Method | Endpoint | Description |
+|--------|----------|-------------|
+| GET | /api/relays | List monitored relays |
+| GET | /api/relays/{name}/metrics | Current metrics |
+| GET | /api/relays/{name}/metrics/history | Historical metrics |
+| GET | /api/alerts | Active alerts |
+| POST | /api/alerts/{id}/acknowledge | Acknowledge alert |
+| GET | /metrics | Prometheus metrics |
 
-## Latency note
+## Plugin System
 
-The "Latency" metric is the **control-port round-trip time** – the
-time to send a GETINFO command and receive the response.  It is *not*
-the circuit latency you'd see in a browser.  True circuit latency
-requires an actual SOCKS5 connection, which is outside the scope of
-this tool.  The RTT is still useful as a proxy for Tor process
-responsiveness.
+### Creating Custom Plugins
 
----
+```python
+from tor_monitor_pro.plugins import PluginBase, MetricsPlugin
 
-## Troubleshooting
+class CustomMetricsPlugin(MetricsPlugin):
+    name = "custom_metrics"
+    version = "1.0.0"
+    description = "Custom relay metrics"
 
-| Symptom | Fix |
-|---|---|
-| `Connection refused` on port 9051 | Add `ControlPort 9051` to torrc and restart Tor |
-| `Auth failed: missing password` | Add `CookieAuthentication 1` to torrc **or** use `--password` |
-| `UnreadableCookieFile` | Run with `sudo` or add your user to the `debian-tor` group |
-| No circuits shown | Tor may still be bootstrapping – wait 30 s |
-| Latency `N/A` | Control socket error; check Tor is running |
-| `stem` not found | `pip install stem` |
+    def initialize(self, config: Dict[str, Any]) -> bool:
+        self.custom_config = config
+        return True
 
----
+    def collect_metrics(self) -> Dict[str, Any]:
+        return {
+            "custom_bandwidth": self.measure_bandwidth(),
+            "custom_latency": self.measure_latency()
+        }
+
+    def cleanup(self):
+        pass
+```
+
+### Plugin Locations
+
+- Global: /usr/local/share/tor-monitor-pro/plugins/
+- User: ~/.tor-monitor-pro/plugins/
+- Project: ./plugins/
+
+## Monitoring & Metrics
+
+### Prometheus Integration
+
+```yaml
+# prometheus.yml
+scrape_configs:
+  - job_name: 'tor-monitor'
+    static_configs:
+      - targets: ['localhost:9090']
+```
+
+### Grafana Dashboard
+
+Import the provided [Grafana dashboard](dashboards/tor-monitor-grafana.json) for comprehensive visualization.
+
+### Key Metrics
+
+| Metric | Type | Description |
+|--------|------|-------------|
+| tor_monitor_read_rate_kibs | Gauge | Download rate in KiB/s |
+| tor_monitor_write_rate_kibs | Gauge | Upload rate in KiB/s |
+| tor_monitor_circuit_count | Gauge | Active circuits |
+| tor_monitor_alerts_active | Gauge | Active alerts by severity |
+| tor_monitor_anomalies_total | Counter | Total anomalies detected |
+
+## Security
+
+### Audit Logging
+
+All security events are logged with tamper-evident SHA256 chaining:
+
+```bash
+# Verify audit log integrity
+python -c "
+from tor_monitor_pro.audit import AuditLogger
+logger = AuditLogger('./audit.log')
+print('Audit log integrity:', 'VALID' if logger.verify_chain() else 'COMPROMISED')
+"
+```
+
+### PGP Key Verification
+
+For secure distribution, releases are signed with PGP:
+
+```bash
+# Import maintainer key
+gpg --keyserver hkps://keys.openpgp.org --recv-keys 0xCF09157628A7E811
+
+# Verify release
+gpg --verify tor-monitor-pro-v1.0.0.tar.gz.asc tor-monitor-pro-v1.0.0.tar.gz
+```
+
+Maintainer PGP Key: 0xCF09157628A7E811 - [Download Key](https://keys.openpgp.org/vks/v1/by-fingerprint/CF09157628A7E811)
+Email: rozhan.isty@protonmail.com
+
+## Testing
+
+### Run Test Suite
+
+```bash
+# Install test dependencies
+pip install -e ".[dev]"
+
+# Run tests
+pytest
+
+# With coverage
+pytest --cov=tor_monitor_pro --cov-report=html
+```
+
+### Installation Test
+
+```bash
+# Quick installation verification
+python test_installation.py
+```
+
+## Development Setup
+
+```bash
+# Fork and clone
+git clone https://github.com/rozhanisty/tor-bandwidth-monitor.git
+cd tor-bandwidth-monitor
+
+# Create virtual environment
+python -m venv venv
+source venv/bin/activate  # Linux/Mac
+# or
+venv\Scripts\activate     # Windows
+
+# Install development dependencies
+pip install -e ".[dev]"
+
+# Run tests
+pytest
+
+# Start development server
+tor-monitor-pro --debug --web
+```
+
+### Code Quality
+
+```bash
+# Format code
+black tor_monitor_pro/
+isort tor_monitor_pro/
+
+# Lint code
+ruff tor_monitor_pro/
+mypy tor_monitor_pro/
+
+# Security audit
+bandit -r tor_monitor_pro/
+```
 
 ## License
 
-MIT
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+MIT License
+
+Copyright (c) 2024 Tor Monitor Pro Team
+
+Permission is hereby granted, free of charge, to any person obtaining a copy
+of this software and associated documentation files (the "Software"), to deal
+in the Software without restriction, including without limitation the rights
+to use, copy, modify, merge, publish, distribute, sublicense, and/or sell
+copies of the Software, and to permit persons to whom the Software is
+furnished to do so, subject to the following conditions:
+
+The above copyright notice and this permission notice shall be included in all
+copies or substantial portions of the Software.
+
+## Acknowledgments
+
+- [Tor Project](https://www.torproject.org/) - For the Tor anonymity network
+- [Stem](https://stem.torproject.org/) - Python Tor control library
+- [FastAPI](https://fastapi.tiangolo.com/) - Modern web framework
+- [Rich](https://rich.readthedocs.io/) - Beautiful terminal interfaces
+- [Prometheus](https://prometheus.io/) - Metrics collection and alerting
+
+## Support
+
+For issues or questions, visit the [GitHub repository](https://github.com/rozhanisty/tor-bandwidth-monitor).
+
+---
+
+Tor Monitor Pro - Professional monitoring for Tor relay operators
