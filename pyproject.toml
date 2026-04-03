@@ -1,0 +1,23 @@
+[build-system]
+requires      = ["setuptools>=67", "wheel"]
+build-backend = "setuptools.backends.legacy:build"
+
+[project]
+name        = "tor-monitor"
+version     = "0.1.0"
+description = "Live Tor bandwidth & circuit monitor – stem + Rich"
+readme      = "README.md"
+requires-python = ">=3.8"
+license     = { text = "MIT" }
+
+dependencies = [
+    "stem>=1.8.0",
+    "rich>=13.0.0",
+]
+
+[project.scripts]
+tor-monitor   = "main:main"
+tor-check     = "tor_monitor.check_setup:main"
+
+[tool.setuptools.packages.find]
+where = ["."]
